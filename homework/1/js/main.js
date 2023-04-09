@@ -4,22 +4,22 @@ const userNames = [
   "Гнатюк Петро Антонович",
   "Рудко Андрій Опанасович",
 ];
-let initials = [];
+const initials = getInitials(userNames);
 
-function getInitials(currentName, currentArray) {
-  currentName.map((name) => {
-    let currentFullName = name.split(" "),
-      currentInitials = [];
+function getInitials(names) {
+  const initialsForNames = names.map((name) => {
+    const namePart = name.split(" ");
+    const currentInitials = [];
 
-    currentFullName.forEach((person) => {
+    namePart.forEach((person) => {
       currentInitials.push(person[0]);
     });
 
-    currentArray.push(currentInitials.join("."));
+    return `${currentInitials.join(".")}.`;
   });
-}
 
-getInitials(userNames, initials);
+  return initialsForNames.sort();
+}
 
 console.log(initials); // [ "Г.П.А.", "П.О.І.", "Р.А.О."]
 
