@@ -25,25 +25,20 @@ console.log(initials); // [ "Г.П.А.", "П.О.І.", "Р.А.О."]
 
 // 2
 const currentMaxValue = 4589;
-let reverseMaxValue = reverseNumber(currentMaxValue);
+const reverseMaxValue = reverseNumber(currentMaxValue);
 
-// тут спочатку зробив через slice, а потім вже більш простим способом (split) :)
 function reverseNumber(number) {
-  const numberToString = number.toString(),
-    newNumberArray = [];
+  const reversedValue = number.toString().split("").reverse().join("");
 
-  for (let i = 1; i < numberToString.length + 1; i++) {
-    newNumberArray.push(numberToString.slice(i - 1, i));
-  }
+  return reversedValue.indexOf("-") > 0
+    ? -parseInt(reversedValue)
+    : parseInt(reversedValue);
 
-  return +newNumberArray.reverse().join("");
+  /* 
+  Поцікавився, як можна реалізувати задачу більш простим способом і підглянув в інтернеті реалізацію за допомогою Math.sign
+    return parseInt(reversedValue) * Math.sign(number);
+  */
 }
-
-// function reverseNumber(number) {
-//   const numberToString = number.toString();
-
-//   return +numberToString.split("").reverse().join("");
-// }
 
 console.log(reverseMaxValue); // 9854
 console.log(typeof reverseMaxValue); // 'number'
