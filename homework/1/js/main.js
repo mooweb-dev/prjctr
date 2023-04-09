@@ -45,9 +45,7 @@ console.log(typeof reverseMaxValue); // 'number'
 
 // 3
 const resultsArray = [1, 2, [3, [4]]];
-let productOfArray;
-
-productOfArray = resultsArray
+const productOfArray = resultsArray
   .flat(Infinity)
   .reduce((accumulator, currentValue) => accumulator * currentValue, 1);
 
