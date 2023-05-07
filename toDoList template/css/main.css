@@ -1,6 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
 * {
-  box-sizing: content-box;
-  font-family: "Open Sans", sans-serif;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  background: #4276ff;
+}
+
+.todo {
+  background: #fff;
+  padding: 24px 16px;
+  box-shadow: 0px 10px 21px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  max-width: 400px;
+  width: 100%;
 }
 
 .container {
@@ -12,23 +27,17 @@
   justify-content: center;
 }
 
-.block {
-  max-width: 300px;
-  width: 100%;
-}
-
-.button {
-  margin-top: 10px;
-}
-
-.input,
-.button {
-  width: 100%;
-  cursor: pointer;
-}
-
 .collection {
   margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: hidden;
+}
+
+.collection:has(li) {
+  margin: 20px 0;
 }
 
 .list-item {
@@ -36,6 +45,19 @@
   align-items: center;
   justify-content: space-between;
   margin: 4px 0;
+  animation: fadeInUp 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
 }
 
 .list-item div {
@@ -46,4 +68,78 @@
 
 .list-item div i {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s all ease;
+  width: 28px;
+  height: 28px;
+  background: #9584d9;
+  box-shadow: 0px 0px 20px rgba(149, 132, 217, 0.23);
+  border-radius: 6px;
+  color: #fff;
+}
+
+.list-item div i:hover {
+  opacity: 0.7;
+}
+
+.list-item div i.fa-pencil {
+  background: #ffba35;
+}
+
+.list-item div i.fa-trash-o {
+  background: #f50d0d;
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.input {
+  background: #f5f5f5;
+  border-radius: 12px;
+  border: 0;
+  width: 100%;
+  padding: 16px;
+}
+
+.button {
+  max-width: 100%;
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.313em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 11px 5px;
+  background: #4276ff;
+  border-radius: 12px;
+  transition: 0.3s all ease;
+  border: 0;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background: #608af9;
+}
+
+.remove-button {
+  background: #f50d0d;
+}
+
+.remove-button:hover {
+  background: #fd5050;
 }

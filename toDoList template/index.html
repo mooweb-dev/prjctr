@@ -16,43 +16,45 @@
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
       crossorigin="anonymous"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="./css/main.css" />
     <title>Todo list</title>
   </head>
   <body>
     <div class="container">
-      <div class="block">
-        <div class="create-task-form">
-          <h3 class="title">Нове завдання</h3>
-          <div class="input-field">
-            <input type="text" name="task" class="input task-input" />
+      <div class="todo">
+        <div class="block">
+          <div class="create-task-form">
+            <h3 class="title">Нове завдання</h3>
+            <div class="input-field">
+              <input
+                type="text"
+                name="task"
+                class="input task-input"
+                placeholder="Зарахувати ДЗ"
+              />
+            </div>
+            <button type="button" class="button add-button">
+              Додати завдання
+            </button>
           </div>
-          <button type="button" class="button add-button">
-            Додати завдання
-          </button>
+        </div>
+        <div class="block">
+          <h3 class="title">Список завдань</h3>
+          <div class="input-field">
+            <input
+              type="text"
+              name="filter"
+              class="input filter-input"
+              placeholder="Пошук завдань"
+            />
+          </div>
+
+          <ul class="collection"></ul>
+
+          <button class="button remove-button">Видалити всі завдання</button>
         </div>
       </div>
-      <div class="block">
-        <h3 class="title">Список завдань</h3>
-        <div class="input-field">
-          <input
-            type="text"
-            name="filter"
-            class="input filter-input"
-            placeholder="Пошук завдань"
-          />
-        </div>
-
-        <ul class="collection"></ul>
-
-        <button class="button remove-button">Видалити всі завдання</button>
-      </div>
+      <!-- todo -->
     </div>
 
     <script>
@@ -67,6 +69,12 @@
       let mode = MODE_EDITOR.new;
 
       const STORAGE_KEY = "tasks";
+
+      const MODAL_TITLES = {
+        EDIT: "Редагувати завдання",
+        CONFIRM_DELETE: "Ви впевнені, що хочете видалити завдання?",
+        CONFIRM_DELETE_ALL: "Ви впевнені, що хочете видалити всі завдання?",
+      };
 
       init();
 
@@ -99,7 +107,7 @@
 
         const tasks = getTasksFromLS();
 
-        li.setAttribute("data-position", index ?? tasks.length);
+        li.setAttribute("data-position", index ?? tasks.length - 1);
 
         collection.append(li);
       }
@@ -129,12 +137,28 @@
           return;
         }
 
+        const confirmRemoveTask = confirm(MODAL_TITLES.CONFIRM_DELETE);
+
+        if (!confirmRemoveTask) {
+          return;
+        }
+
         parentContainer.remove();
         const position = parentContainer.dataset.position;
         removeTaskFromLS(parseInt(position));
       }
 
       function removeAllTasks(e) {
+        if (!collection.firstChild) {
+          return;
+        }
+
+        const confirmRemoveAllTasks = confirm(MODAL_TITLES.CONFIRM_DELETE_ALL);
+
+        if (!confirmRemoveAllTasks) {
+          return;
+        }
+
         while (collection.firstChild) {
           collection.firstChild.remove();
         }
@@ -150,8 +174,6 @@
             item.style.display = "flex";
           }
         });
-
-        // removeTaskFromLS();
       }
 
       function editTask(e) {
@@ -163,14 +185,32 @@
 
         const divElement = targetElement.closest("div");
         const textElement = divElement.previousElementSibling;
+        const listElement = targetElement.closest("li");
 
         if (!textElement) {
           return;
         }
 
         const value = textElement.textContent;
+        const changedValue = prompt(MODAL_TITLES.EDIT, value);
 
-        taskInput.value = value;
+        if (!changedValue) {
+          return;
+        }
+
+        const tasks = getTasksFromLS();
+        const position = parseInt(listElement.dataset.position);
+        const updatedList = tasks.map((task) => {
+          if (task === tasks[position]) {
+            return (task = { value: changedValue });
+          }
+
+          return task;
+        });
+
+        textElement.textContent = changedValue;
+
+        setTasksToLS(updatedList);
       }
 
       function filterTasks(e) {
@@ -203,7 +243,7 @@
       function removeTaskFromLS(position) {
         const tasks = getTasksFromLS();
         const updatedList = tasks.filter((task) => {
-          return task.id !== position;
+          return task !== tasks[position];
         });
 
         setTasksToLS(updatedList);
@@ -226,13 +266,15 @@
       function addTaskToLS(value) {
         const tasks = getTasksFromLS();
 
-        tasks.push({ id: tasks.length, value });
+        tasks.push({ value });
 
         setTasksToLS(tasks);
       }
 
       function loadTasks(e) {
         const tasks = getTasksFromLS();
+
+        console.log(tasks);
 
         tasks.forEach((task, index) => {
           insertTaskIntoDOM(task.value, index);
