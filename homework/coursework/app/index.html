@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Coursework 1</title>
+    <link rel="stylesheet" href="css/style.min.css" />
+  </head>
+  <body>
+    <section class="section-difference">
+      <div class="container">
+        <form class="difference">
+          <div class="difference__item">
+            <div class="difference__dates">
+              <div class="difference__dates-item">
+                <h3>Початкова дата*</h3>
+                <input type="date" id="startDate" max="2999-01-01" required />
+              </div>
+              <!-- difference__dates-item -->
+
+              <div class="difference__dates-item">
+                <h3>Кінцева дата*</h3>
+                <input
+                  type="date"
+                  id="endDate"
+                  max="2999-01-01"
+                  disabled
+                  required
+                />
+              </div>
+              <!-- difference__dates-item -->
+            </div>
+            <!-- difference__dates -->
+          </div>
+          <!-- difference__item -->
+
+          <div class="difference__item">
+            <div class="difference__presets">
+              <h3>Оберіть пресет</h3>
+
+              <div class="difference__presets-check">
+                <label class="difference__presets-label">
+                  <input
+                    type="radio"
+                    value="week"
+                    name="preset"
+                    disabled="true"
+                  />
+                  <span>Тиждень</span>
+                </label>
+                <!-- difference__presets-label -->
+
+                <label class="difference__presets-label">
+                  <input
+                    type="radio"
+                    value="month"
+                    name="preset"
+                    disabled="true"
+                  />
+                  <span>Місяць</span>
+                </label>
+                <!-- difference__presets-label -->
+
+                <button class="difference__presets-btn hidden" id="clearPreset">
+                  <img src="img/icons/delete.svg" alt="delete" />
+                </button>
+              </div>
+              <!-- difference__presets-check -->
+            </div>
+            <!-- difference__presets -->
+          </div>
+          <!-- difference__item -->
+
+          <div class="difference__item">
+            <div class="difference__selects">
+              <div class="difference__type">
+                <h3>Оберіть тип дня</h3>
+                <select name="type" id="type" class="difference__type-select">
+                  <option value="all">Всі дні</option>
+                  <option value="weekday">Будні дні</option>
+                  <option value="weekend">Вихідні дні</option>
+                </select>
+              </div>
+              <!-- difference__type -->
+
+              <div class="difference__period">
+                <h3>Оберіть проміжок часу</h3>
+                <select
+                  name="period"
+                  id="period"
+                  class="difference__period-select"
+                >
+                  <option value="days">Порахувати кількість днів</option>
+                  <option value="hours">Порахувати кількість годин</option>
+                  <option value="minutes">Порахувати кількість хвилин</option>
+                  <option value="seconds">Порахувати кількість секунд</option>
+                </select>
+                <!-- difference__period-select -->
+              </div>
+              <!-- difference__period -->
+            </div>
+            <!-- difference__selects -->
+          </div>
+          <!-- difference__item -->
+
+          <div class="difference__item">
+            <div class="difference__history">
+              <h3>Історія запитів</h3>
+
+              <div class="difference__history-table-wrapper">
+                <table class="difference__history-table">
+                  <thead>
+                    <tr>
+                      <th>Старт</th>
+                      <th>Кінець</th>
+                      <th>Тип</th>
+                      <th>Одиниця вимірювання</th>
+                      <th>Різниця часу</th>
+                    </tr>
+                  </thead>
+
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <ul class="difference__history-list"></ul>
+              <!-- difference__history-list -->
+            </div>
+            <!-- difference__history -->
+          </div>
+          <!-- difference__item -->
+
+          <div class="difference__item">
+            <button class="difference__submit">Порахувати</button>
+            <!-- difference__submit -->
+          </div>
+          <!-- difference__item -->
+        </form>
+        <!-- difference -->
+      </div>
+      <!-- container -->
+    </section>
+    <!-- section-difference -->
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
