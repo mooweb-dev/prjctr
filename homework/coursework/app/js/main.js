@@ -36,8 +36,8 @@ const TYPE_TITLES = {
 };
 
 const dataSetups = {
-  startDate: "2023-05-13",
-  endDate: "2023-05-15",
+  startDate: "",
+  endDate: "",
   preset: "",
   type: "all",
   period: "days",
@@ -75,7 +75,7 @@ function handleClickSubmit(e) {
   if (validateForm()) {
     dataSetups.total = calculateDays();
     createHistory(dataSetups);
-    addLHistoryToStorage(dataSetups);
+    addHistoryToStorage(dataSetups);
 
     resetState();
     return;
@@ -85,11 +85,11 @@ function handleClickSubmit(e) {
 }
 
 function validateForm() {
-  const isValidStartDate = isValidDate(startDateField.value);
-  const isValidEndDate = isValidDate(endDateField.value);
+  const isValidStartDate = isValidDate(dataSetups.startDate);
+  const isValidEndDate = isValidDate(dataSetups.endDate);
 
   const isValidDates =
-    new Date(endDateField.value) > new Date(startDateField.value);
+    new Date(dataSetups.endDate) > new Date(dataSetups.startDate);
 
   return isValidStartDate && isValidEndDate && isValidDates;
 }
@@ -98,6 +98,7 @@ function resetState() {
   resetDate("startDate", startDateField);
   resetDate("endDate", endDateField);
   toggleActivePresets();
+  dataSetups.total = 0;
 }
 
 function getTimePattern(pattern) {
@@ -230,7 +231,7 @@ function setToStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-function addLHistoryToStorage(value) {
+function addHistoryToStorage(value) {
   const history = getFromStorage(HISTORY_STORAGE_KEY);
 
   history.unshift(value);
