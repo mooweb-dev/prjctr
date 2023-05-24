@@ -16,118 +16,100 @@ Animal.prototype.eat = function () {
 };
 
 // Bird
-const Bird = {
-  init(flightHours) {
-    this.flightHours = flightHours;
-    this._wingsCount = 2;
-  },
+function Bird(name, age, habitat, flightHours) {
+  Animal.call(this, name, age, habitat);
+  this.flightHours = flightHours;
+  this._wingsCount = 2;
+}
 
-  getWingsCount() {
-    return this._wingsCount;
-  },
-
-  fly() {
-    console.log(`I can fly because I have ${this.getWingsCount()} wings`);
-  },
+Bird.prototype.getWingsCount = function () {
+  return this._wingsCount;
 };
 
-Bird.__proto__ = Animal;
+Bird.prototype.fly = function () {
+  console.log(`I can fly because I have ${this.getWingsCount()} wings`);
+};
 
 // Reptiles
-const Reptiles = {
-  init(legsCount) {
-    this.legsCount = legsCount;
-    this._composure = true;
-  },
+function Reptiles(name, age, habitat, legsCount) {
+  Animal.call(this, name, age, habitat);
+  this.legsCount = legsCount;
+  this._composure = true;
+}
 
-  getComposure() {
-    return this._composure;
-  },
-
-  movement() {
-    console.log(`I movement on ${this.getComposure()} legs. Go go go!`);
-  },
+Reptiles.prototype.getComposure = function () {
+  return this._composure;
 };
 
-Reptiles.__proto__ = Animal;
+Reptiles.prototype.movement = function () {
+  console.log(`I movement on ${this.getComposure()} legs. Go go go!`);
+};
 
 // Fish
-const Fish = {
-  init(speed) {
-    this.speed = speed;
-    this._gill = true;
-  },
+function Fish(name, age, habitat, speed) {
+  Animal.call(this, name, age, habitat);
+  this.speed = speed;
+  this._gill = true;
+}
 
-  getGill() {
-    return this._gill;
-  },
-
-  swimming() {
-    console.log(
-      `I can swim underwater because I have ${
-        this.getGill() ? "gills" : "..stop. Bad fish out of me"
-      }`
-    );
-  },
+Fish.prototype.getGill = function () {
+  return this._gill;
 };
 
-Fish.__proto__ = Animal;
+Fish.prototype.swimming = function () {
+  console.log(
+    `I can swim underwater because I have ${
+      this.getGill() ? "gills" : "..stop. Bad fish out of me"
+    }`
+  );
+};
 
 // Mammals
-const Mammals = {
-  init(legsCount, speed) {
-    this.speed = speed;
-    this.legsCount = legsCount;
-    this._wool = _wool;
-  },
+function Mammals(name, age, habitat, legsCount, speed) {
+  Animal.call(this, name, age, habitat);
+  this.speed = speed;
+  this.legsCount = legsCount;
+  this._wool = true;
+}
 
-  getWool() {
-    return this._wool;
-  },
-
-  running() {
-    console.log(`I run at an average speed of ${this.speed} km/h`);
-  },
+Mammals.prototype.getWool = function () {
+  return this._wool;
 };
 
-Mammals.__proto__ = Animal;
+Mammals.prototype.running = function () {
+  console.log(`I run at an average speed of ${this.speed} km/h`);
+};
 
 // Cat
-const Cat = {
-  init(nightVision) {
-    this.nightVision = nightVision;
-    this._sound = "meow";
-    this._physicalActivity = "Loves to sleep";
-  },
+function Cat(name, age, habitat, legsCount, speed, nightVision) {
+  Mammals.call(this, name, age, habitat, legsCount, speed);
+  this.nightVision = nightVision;
+  this._sound = "meow";
+  this._physicalActivity = "Loves to sleep";
+}
 
-  getPhysicalActivity() {
-    return this._physicalActivity;
-  },
-
-  greetTheHost() {
-    console.log(this._sound);
-  },
+Cat.prototype.getPhysicalActivity = function () {
+  return this._physicalActivity;
 };
 
-Cat.__proto__ = Mammals;
+Cat.prototype.greetTheHost = function () {
+  console.log(this._sound);
+};
 
 // Dog
-const Dog = {
-  init(nightVision) {
-    this.nightVision = nightVision;
-    this._sound = "woof";
-    this._physicalActivity = "Likes to walk";
-  },
+function Dog(name, age, habitat, legsCount, speed, nightVision) {
+  Mammals.call(this, name, age, habitat, legsCount, speed);
+  this.nightVision = nightVision;
+  this._sound = "woof";
+  this._physicalActivity = "Likes to walk";
+}
 
-  getPhysicalActivity() {
-    return this._physicalActivity;
-  },
-
-  greetTheHost() {
-    console.log(this._sound);
-  },
+Dog.prototype.getPhysicalActivity = function () {
+  return this._physicalActivity;
 };
 
-Dog.__proto__ = Mammals;
+Dog.prototype.greetTheHost = function () {
+  console.log(this._sound);
+};
 
-console.log(Dog);
+const dog = new Dog();
