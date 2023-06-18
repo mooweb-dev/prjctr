@@ -1,31 +1,31 @@
 "use strict";
 
+function getValueByPosition(index) {
+  if (index % 15 === 0) {
+    return "FizzBuzz";
+  }
+
+  if (index % 3 === 0) {
+    return "Fizz";
+  }
+
+  if (index % 5 === 0) {
+    return "Buzz";
+  }
+
+  return index;
+}
+
 // iterator
 const makeIterator = {
   [Symbol.iterator]() {
     let current = 1;
 
-    const checkMultiplicity = (index) => {
-      if (index % 15 === 0) {
-        return "FizzBuzz";
-      }
-
-      if (index % 3 === 0) {
-        return "Fizz";
-      }
-
-      if (index % 5 === 0) {
-        return "Buzz";
-      }
-
-      return index;
-    };
-
     return {
       next() {
         if (current <= 100) {
           const result = {
-            value: checkMultiplicity(current),
+            value: getValueByPosition(current),
           };
 
           current++;
@@ -46,15 +46,7 @@ for (const value of makeIterator) {
 // generator
 function* makeGenerator() {
   for (let i = 1; i <= 100; i++) {
-    if (i % 15 === 0) {
-      yield "FizzBuzz";
-    } else if (i % 3 === 0) {
-      yield "Fizz";
-    } else if (i % 5 === 0) {
-      yield "Buzz";
-    } else {
-      yield i;
-    }
+    yield getValueByPosition(i);
   }
 }
 
