@@ -8,8 +8,10 @@
 const searchInput = document.getElementById("search");
 const notification = document.getElementById("notification");
 const profile = document.querySelector(".profile");
+const repositoriesHtml = document.querySelector(".repositories");
 
 const MIN_NAME_LENGTH = 2;
+const TOKEN = "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";
 
 class NotFoundError extends Error {
   constructor(message) {
@@ -30,15 +32,10 @@ async function getUserByUserName(userName) {
     return;
   }
 
-  const token = "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";
-  const response = await fetch("https://api.github.com/user", {
-    headers: { Authorization: `token  ${token}` },
+  const response = await fetch(`https://api.github.com/users/${userName}`, {
+    headers: { Authorization: `token  ${TOKEN}` },
   });
-  // const profile = await response.json();
 
-  // const response = await fetch(
-  //   `https://api.github.com/users/${userName}?clientId=CLIENT_ID_HERE&clientSecret=CLIENT_SECRET_HERE`
-  // );
   const body = await response.json();
 
   if (!response.ok) {
@@ -89,6 +86,50 @@ function renderProfile(user) {
     `;
 }
 
+async function getProfileRepositories(repos) {
+  if (!repos) {
+    return;
+  }
+
+  const response = await fetch(repos, {
+    private: false,
+    headers: { Authorization: `token  ${TOKEN}` },
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new NotFoundError(`Repository not found. Please, check it!`);
+    }
+    if (response.status === 403) {
+      throw new NotAuthenticatedError(
+        `You are not authenticated to make this request!`
+      );
+    }
+
+    throw new Error(body.message);
+  }
+
+  return body;
+}
+
+async function renderProfileRepositories(repos) {
+  if (!repos) {
+    return;
+  }
+
+  const result = await getProfileRepositories(repos);
+  const repositories = result.slice(0, 5);
+
+  repositoriesHtml.innerHTML = "";
+
+  repositories.forEach((repository) => {
+    const repositoryItem = `<div class="repositories"><div><a target="_blank" href="${repository.html_url}">${repository.name}</a></div></div>`;
+    repositoriesHtml.innerHTML += repositoryItem;
+  });
+}
+
 function renderNotification(message, className = "alert-danger") {
   notification.className = `${notification.className} ${className} show-notification`;
   notification.innerHTML = `<span>${message}</span>`;
@@ -100,7 +141,10 @@ function renderNotification(message, className = "alert-danger") {
 
 function clearResult() {
   profile.innerHTML = "";
+  repositoriesHtml.innerHTML = "";
 }
+
+let fetchTimeout;
 
 async function fetchProfile(e) {
   const value = e.target.value;
@@ -109,19 +153,24 @@ async function fetchProfile(e) {
     clearResult();
   }
 
-  try {
-    const user = await getUserByUserName(value);
-    renderProfile(user);
-    renderNotification(
-      "It looks good! Here is a user's profile",
-      "alert-success"
-    );
-  } catch (e) {
-    renderNotification(e.message);
-    clearResult();
-  }
+  clearTimeout(fetchTimeout);
+
+  fetchTimeout = setTimeout(async () => {
+    try {
+      const user = await getUserByUserName(value);
+      const reposUrl = user.repos_url;
+
+      renderProfile(user);
+      renderProfileRepositories(reposUrl);
+      renderNotification(
+        "It looks good! Here is a user's profile",
+        "alert-success"
+      );
+    } catch (e) {
+      renderNotification(e.message);
+      clearResult();
+    }
+  }, 500);
 }
 
-searchInput.addEventListener("keyup", (e) => {
-  setTimeout(() => fetchProfile(e), 500);
-});
+searchInput.addEventListener("keyup", fetchProfile);
