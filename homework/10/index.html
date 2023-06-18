@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Home Work 10</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .container {
+        max-width: 700px;
+        width: 100%;
+      }
+
+      .form {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .form__input {
+        width: 100%;
+      }
+
+      .result__item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .result__list-wrapper {
+        display: flex;
+        align-items: center;
+      }
+
+      .result__list {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0 5px;
+      }
+
+      .result__list li {
+        list-style: none;
+      }
+    </style>
+
+    <div class="container">
+      <form class="form">
+        <input type="text" id="input" class="form__input" />
+
+        <button id="button">Додати</button>
+      </form>
+
+      <div id="result">
+        <h2 class="result__title">Результат</h2>
+
+        <div class="result__item">
+          <h3>Масив:</h3>
+
+          <div class="result__list-wrapper">
+            [
+            <ul id="array" class="result__list"></ul>
+            ]
+          </div>
+        </div>
+
+        <div class="result__item">
+          <h3>Сет:</h3>
+
+          <div class="result__list-wrapper">
+            [
+            <ul id="set" class="result__list"></ul>
+            ]
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
