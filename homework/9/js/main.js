@@ -1,6 +1,6 @@
 "use strict";
 
-// interator
+// iterator
 const makeIterator = {
   [Symbol.iterator]() {
     let current = 1;
